@@ -56,6 +56,14 @@ Sin inconsistencias → `Correcta`.
 Una o más inconsistencias → `Con inconsistencia`.
 Si existen varias, indicar todas las causas detectadas.
 
+### R6. Estado contable
+
+Si el registro contable asociado tiene `estado` diferente de `Pendiente` o `Contabilizada`, clasificar la factura como inconsistente con la causa `Estado contable inválido`.
+
+### R7. Formato de fechas
+
+Las columnas `fecha_factura` y `fecha_contabilizacion` deben tener formato `yyyy-mm-dd`. Si una entrada no tiene el formato adecuado o no hay valor, clasificar la factura como inconsistente con la causa `Formato de fecha inválido`. El parser no rechaza el archivo; identifica la factura afectada.
+
 ## Precisión
 
 Usar representación decimal adecuada para valores monetarios y evitar errores de punto flotante. No introducir tolerancias arbitrarias. Si se requiere redondeo, debe documentarse y aplicarse consistentemente.

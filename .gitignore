@@ -25,3 +25,9 @@ dist/
 .DS_Store
 Thumbs.db
 
+# Opencode
+.agents
+
+# Developer notes
+DEVELOPNOTES.md
+

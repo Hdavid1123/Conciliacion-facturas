@@ -38,6 +38,8 @@ Actúa como agente de desarrollo del proyecto. Implementa lo definido en las esp
 
 Evita abstracciones prematuras, patrones innecesarios, clases creadas por formalidad, duplicación y comentarios que solo repitan el código.
 
+Cuando se explique o pregunte por una parte específica del código, documentar la explicación en `DEVELOPNOTES.md` (incluso si ya se mencionó en conversación). Si la explicación ya existe en el archivo, actualizarla en lugar de duplicarla.
+
 ## Límites
 
 Antes de modificar código, leer:
@@ -56,7 +58,9 @@ Leer `MEMORY.md` al iniciar una tarea y actualizarlo al terminar.
 
 Implementar únicamente las reglas definidas en `specs/SPEC.md`. No inferir reglas adicionales por el nombre de los campos.
 
-La existencia de `valor_debito`, `valor_credito` o `estado` en `contabilidad.csv` no implica validaciones adicionales si estas no están especificadas.
+La existencia de `valor_debito` o `valor_credito` en `contabilidad.csv` no implica validaciones adicionales si estas no están especificadas.
+
+Las columnas relacionadas con fechas (`fecha_factura`, `fecha_contabilizacion`) deben tener formato `yyyy-mm-dd`. Si una entrada no tiene el formato adecuado o no hay valor, es una inconsistencia. El parser no rechaza el archivo; identifica la factura afectada.
 
 Ante una posible regla nueva, documentar la duda y solicitar una decisión antes de implementarla.
 

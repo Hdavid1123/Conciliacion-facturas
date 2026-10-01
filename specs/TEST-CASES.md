@@ -12,6 +12,8 @@ Cubrir mediante pruebas automatizadas y manuales las reglas de negocio, validaci
 * TC-04 Factura duplicada: mismo `id_factura`; detectar `Factura duplicada`.
 * TC-05 Sin registro contable: factura sin coincidencia en contabilidad; detectar `Factura sin registro en contabilidad`.
 * TC-06 Múltiples inconsistencias: detectar todas las condiciones inválidas sin detenerse en la primera.
+* TC-14 Estado contable inválido: registro con `estado` diferente de `Pendiente` o `Contabilizada`; detectar `Estado contable inválido`.
+* TC-15 Formato de fecha inválido: `fecha_factura` o `fecha_contabilizacion` sin formato `yyyy-mm-dd` o sin valor; detectar `Formato de fecha inválido`.
 
 ## Validaciones
 
@@ -36,6 +38,8 @@ Cubrir mediante pruebas automatizadas y manuales las reglas de negocio, validaci
 Debe existir una prueba del flujo:
 `CSV → endpoint FastAPI → parsing → servicio de conciliación → JSON`.
 Debe validar `summary`, `details`, estados e inconsistencias.
+
+* TC-16 Integración: prueba del flujo completo `CSV → endpoint FastAPI → parsing → servicio de conciliación → JSON`.
 
 ## Pruebas manuales
 
