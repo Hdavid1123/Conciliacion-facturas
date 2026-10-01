@@ -12,8 +12,9 @@ Proyecto inicializado. Pendiente implementar backend FastAPI, conciliación, fro
 - Sin base de datos ni persistencia.
 - La lógica debe seguir SPEC.md sin inferir reglas adicionales.
 - Angular se mantiene como frontend pequeño.
-- R6: `estado` en contabilidad.csv debe ser `Pendiente` o `Contabilizada`; si no, es inconsistencia.
-- R7: fechas con formato `yyyy-mm-dd`; si no, es inconsistencia. Parser no rechaza, identifica factura afectada.
+- R2: retención = base_gravable × tarifa_retencion; si no coincide, es inconsistencia.
+- R7: `estado` en contabilidad.csv debe ser `Pendiente` o `Contabilizada`; si no, es inconsistencia.
+- R8: fechas con formato `yyyy-mm-dd`; si no, es inconsistencia. Parser no rechaza, identifica factura afectada.
 
 ## Pendientes
 

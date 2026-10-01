@@ -37,30 +37,35 @@ No se requiere persistencia, base de datos, historial ni procesamiento posterior
 IVA esperado = `base_gravable × tarifa_iva`.
 Comparar el resultado con `valor_iva`.
 
-### R2. Total
+### R2. Retención
+
+Retención esperada = `base_gravable × tarifa_retencion`.
+Comparar el resultado con `valor_retencion`.
+
+### R3. Total
 
 Total esperado = `base_gravable + valor_iva - valor_retencion`.
 Comparar con `total_factura`.
 
-### R3. Duplicados
+### R4. Duplicados
 
 Identificar facturas duplicadas según `id_factura` y clasificarlas como inconsistentes.
 
-### R4. Sin contabilización
+### R5. Sin contabilización
 
 Identificar facturas cuyo `id_factura` no exista en `contabilidad.csv` y clasificarlas como inconsistentes.
 
-### R5. Clasificación
+### R6. Clasificación
 
 Sin inconsistencias → `Correcta`.
 Una o más inconsistencias → `Con inconsistencia`.
 Si existen varias, indicar todas las causas detectadas.
 
-### R6. Estado contable
+### R7. Estado contable
 
 Si el registro contable asociado tiene `estado` diferente de `Pendiente` o `Contabilizada`, clasificar la factura como inconsistente con la causa `Estado contable inválido`.
 
-### R7. Formato de fechas
+### R8. Formato de fechas
 
 Las columnas `fecha_factura` y `fecha_contabilizacion` deben tener formato `yyyy-mm-dd`. Si una entrada no tiene el formato adecuado o no hay valor, clasificar la factura como inconsistente con la causa `Formato de fecha inválido`. El parser no rechaza el archivo; identifica la factura afectada.
 
@@ -97,4 +102,4 @@ La lógica de conciliación debe ser independiente de HTTP.
 
 ## Aceptación
 
-El prototipo es funcional cuando los archivos pueden procesarse, las columnas son validadas, R1–R5 producen los resultados definidos, el resumen coincide con el detalle y el frontend muestra y filtra los resultados.
+El prototipo es funcional cuando los archivos pueden procesarse, las columnas son validadas, R1–R8 producen los resultados definidos, el resumen coincide con el detalle y el frontend muestra y filtra los resultados.
