@@ -1,0 +1,46 @@
+# Casos de prueba — Conciliador de facturas
+
+## Objetivo
+
+Cubrir mediante pruebas automatizadas y manuales las reglas de negocio, validaciones, cálculos e integración del conciliador.
+
+## Reglas de negocio
+
+* TC-01 Factura correcta: IVA y total coinciden, no hay duplicidad y existe registro contable. Estado: `Correcta`; inconsistencias: `[]`.
+* TC-02 IVA incorrecto: detectar `IVA calculado diferente al esperado`.
+* TC-03 Total incorrecto: detectar `Total calculado diferente al esperado`.
+* TC-04 Factura duplicada: mismo `id_factura`; detectar `Factura duplicada`.
+* TC-05 Sin registro contable: factura sin coincidencia en contabilidad; detectar `Factura sin registro en contabilidad`.
+* TC-06 Múltiples inconsistencias: detectar todas las condiciones inválidas sin detenerse en la primera.
+
+## Validaciones
+
+* TC-07 Falta archivo de facturas: devolver error HTTP indicando el archivo requerido.
+* TC-08 Falta archivo de contabilidad: devolver error HTTP indicando el archivo requerido.
+* TC-09 Columnas obligatorias ausentes: devolver error claro y no procesar silenciosamente.
+* TC-10 CSV inválido o ilegible: devolver error claro, sin resultados parciales silenciosos.
+
+## Resumen
+
+* TC-11 Para N facturas: `total_facturas = N`.
+* Debe cumplirse `correctas + inconsistencias = total_facturas`.
+* El resumen debe coincidir con los estados de `details`.
+
+## Cálculos
+
+* TC-12 Con base 1000 y tarifa IVA 19%, IVA esperado = 190. Si `valor_iva = 190`, no hay inconsistencia.
+* TC-13 Con base 1000, IVA 190 y retención 10, total esperado = 1180. Si `total_factura = 1180`, no hay inconsistencia.
+
+## Integración
+
+Debe existir una prueba del flujo:
+`CSV → endpoint FastAPI → parsing → servicio de conciliación → JSON`.
+Debe validar `summary`, `details`, estados e inconsistencias.
+
+## Pruebas manuales
+
+Ejecutar: archivo válido, IVA incorrecto, total incorrecto, duplicados, factura sin contabilidad, múltiples inconsistencias, columnas faltantes, procesamiento sin ambos archivos y filtros `Todos`, `Correctas` y `Con inconsistencia`.
+
+## Criterio de finalización
+
+Todos los tests automatizados deben pasar y los escenarios manuales críticos deben ejecutarse. Compilar o arrancar la aplicación no es suficiente; el comportamiento debe corresponder con `SPEC.md`.
