@@ -157,6 +157,8 @@ uv run pytest
 
 Los tests del frontend pueden ejecutarse con los comandos definidos en `package.json`.
 
+La documentación completa de los tests del backend (estructura, comandos y configuración) se encuentra en [`backend/README.md`](backend/README.md).
+
 ## Especificaciones
 
 Las especificaciones funcionales y el contrato de la API se encuentran en:

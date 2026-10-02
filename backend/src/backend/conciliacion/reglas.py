@@ -30,7 +30,7 @@ def r3_total(factura: Factura) -> list[CausaInconsistencia]:
     return []
 
 
-def r4_duplicados(facturas: list[Factura]) -> dict[str, list[CausaInconsistencia]]:
+def r4_factura_duplicada(facturas: list[Factura]) -> dict[str, list[CausaInconsistencia]]:
     conteo = Counter(f.id_factura for f in facturas)
     return {
         id_factura: [CausaInconsistencia.FACTURA_DUPLICADA]
@@ -39,7 +39,16 @@ def r4_duplicados(facturas: list[Factura]) -> dict[str, list[CausaInconsistencia
     }
 
 
-def r5_sin_contabilizacion(
+def r5_registro_duplicado(registros: list[RegistroContable]) -> dict[str, list[CausaInconsistencia]]:
+    conteo = Counter(r.id_factura for r in registros)
+    return {
+        id_factura: [CausaInconsistencia.REGISTRO_DUPLICADO]
+        for id_factura, cantidad in conteo.items()
+        if cantidad > 1
+    }
+
+
+def r6_sin_contabilizacion(
     facturas: list[Factura], registros: list[RegistroContable]
 ) -> dict[str, list[CausaInconsistencia]]:
     ids_contabilidad = {r.id_factura for r in registros}
@@ -50,17 +59,17 @@ def r5_sin_contabilizacion(
     }
 
 
-def r6_clasificacion(causas: list[CausaInconsistencia]) -> str:
+def r7_clasificacion(causas: list[CausaInconsistencia]) -> str:
     return "Con inconsistencia" if causas else "Correcta"
 
 
-def r7_estado_contable(registro: RegistroContable) -> list[CausaInconsistencia]:
+def r8_estado_contable(registro: RegistroContable) -> list[CausaInconsistencia]:
     if registro.estado not in ("Pendiente", "Contabilizada"):
         return [CausaInconsistencia.ESTADO_CONTABLE_INVALIDO]
     return []
 
 
-def r8_fechas(
+def r9_fechas(
     factura: Factura, registro: RegistroContable | None
 ) -> list[CausaInconsistencia]:
     causas = []

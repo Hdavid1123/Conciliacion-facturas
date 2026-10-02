@@ -47,25 +47,29 @@ Comparar el resultado con `valor_retencion`.
 Total esperado = `base_gravable + valor_iva - valor_retencion`.
 Comparar con `total_factura`.
 
-### R4. Duplicados
+### R4. Facturas duplicadas
 
 Identificar facturas duplicadas según `id_factura` y clasificarlas como inconsistentes.
 
-### R5. Sin contabilización
+### R5. Registro contable duplicado
+
+Si un `id_factura` aparece más de una vez en `contabilidad.csv`, clasificar la factura como inconsistente con la causa `Registro contable duplicado`.
+
+### R6. Sin contabilización
 
 Identificar facturas cuyo `id_factura` no exista en `contabilidad.csv` y clasificarlas como inconsistentes.
 
-### R6. Clasificación
+### R7. Clasificación
 
 Sin inconsistencias → `Correcta`.
 Una o más inconsistencias → `Con inconsistencia`.
 Si existen varias, indicar todas las causas detectadas.
 
-### R7. Estado contable
+### R8. Estado contable
 
 Si el registro contable asociado tiene `estado` diferente de `Pendiente` o `Contabilizada`, clasificar la factura como inconsistente con la causa `Estado contable inválido`.
 
-### R8. Formato de fechas
+### R9. Formato de fechas
 
 Las columnas `fecha_factura` y `fecha_contabilizacion` deben tener formato `yyyy-mm-dd`. Si una entrada no tiene el formato adecuado o no hay valor, clasificar la factura como inconsistente con la causa `Formato de fecha inválido`. El parser no rechaza el archivo; identifica la factura afectada.
 
@@ -102,4 +106,4 @@ La lógica de conciliación debe ser independiente de HTTP.
 
 ## Aceptación
 
-El prototipo es funcional cuando los archivos pueden procesarse, las columnas son validadas, R1–R8 producen los resultados definidos, el resumen coincide con el detalle y el frontend muestra y filtra los resultados.
+El prototipo es funcional cuando los archivos pueden procesarse, las columnas son validadas, R1–R9 producen los resultados definidos, el resumen coincide con el detalle y el frontend muestra y filtra los resultados.

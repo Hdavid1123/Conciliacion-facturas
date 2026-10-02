@@ -5,14 +5,17 @@ from datetime import date
 from decimal import Decimal
 from enum import Enum
 
+
 class CausaInconsistencia(str, Enum):
     IVA_INCORRECTO = "IVA incorrecto"
     RETENCION_INCORRECTA = "Retención incorrecta"
     TOTAL_INCORRECTO = "Total de factura incorrecto"
     FACTURA_DUPLICADA = "Factura duplicada"
+    REGISTRO_DUPLICADO = "Registro contable duplicado"
     SIN_CONTABILIZACION = "Factura sin registro en contabilidad"
     ESTADO_CONTABLE_INVALIDO = "Estado contable inválido"
     FORMATO_FECHA_INVALIDO = "Formato de fecha inválido"
+
 
 @dataclass
 class Factura:
@@ -27,6 +30,7 @@ class Factura:
     valor_retencion: Decimal
     total_factura: Decimal
 
+
 @dataclass
 class RegistroContable:
     id_factura: str
@@ -37,17 +41,20 @@ class RegistroContable:
     valor_credito: Decimal
     estado: str
 
+
 @dataclass
 class Detalle:
     id_factura: str
     estado: str
     causas: list[CausaInconsistencia] = field(default_factory=list)
 
+
 @dataclass
 class Resumen:
     total_facturas: int
     correctas: int
     inconsistencias: int
+
 
 @dataclass
 class ResultadoConciliacion:
