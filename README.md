@@ -117,12 +117,34 @@ Las versiones de dependencias se gestionan automáticamente:
 - `frontend/conciliacion-facturas-ui/package.json`: Angular ^22.2.0, Angular CLI ^22.2.0, TypeScript ~6.0.2, Vitest ^5.0.0, npm@11.12.1.
 - `frontend/conciliacion-facturas-ui/package-lock.json`: Lockfile del frontend.
 
-Para instalar las dependencias:
+### Para instalar las dependencias:
 
 ```bash
 cd backend && uv sync
 cd frontend/conciliacion-facturas-ui && npm install
 ```
+
+### Para ejecutar backend:
+
+```bash
+uv run python -m uvicorn backend.main:app --reload
+```
+
+La API estará disponible en `http://localhost:8000`.
+
+La documentación interactiva de FastAPI estará disponible en `http://localhost:8000/docs`.
+
+Tests y demás información se puede encontrar en el README.md de la carpeta backend
+
+### Para ejecutar el frontend:
+
+```bash
+ng serve
+```
+
+La aplicación estará disponible en `http://localhost:4200`.
+
+Tests y demás información se puede encontrar en el README.md de la carpeta frontend.
 
 ## Pruebas y datos de ejemplo
 
