@@ -48,7 +48,7 @@ El backend contiene la lógica de conciliación independientemente de FastAPI pa
 
 ### Proyecto
 
-- **Sin base de datos ni persistencia:** SPEC.md no lo requiere.
+- Sin base de datos ni persistencia.
 - **Un solo endpoint:** API.md solo define `POST /api/conciliacion`.
 - **`uv` para dependencias:** Gestiona entorno virtual y lockfile.
 
