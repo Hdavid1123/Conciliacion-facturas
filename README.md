@@ -96,10 +96,17 @@ De manera similar, podría crearse un identificador `id_contabilidad_linea` para
 │   │   └── conciliacion/
 │   ├── tests/
 │   └── README.md
-└── frontend/
-    └── conciliacion-facturas-ui/
-        └── README.md
+├── frontend/
+|   └── conciliacion-facturas-ui/
+|       └── README.md
+└── docs/
+    ├── Declaración de uso de IA generativa.pdf
+    └── presentacion prototipo web.pdf
 ```
+
+## Documetos adicionales
+
+En el directorio docs se encuentra la presentacion del prototipo y la declaración de uso de inteligencia artificial generativa.
 
 ## Versiones
 
