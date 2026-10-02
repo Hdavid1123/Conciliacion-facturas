@@ -41,12 +41,10 @@ uv run python -m pytest -v
 
 ## Estructura de tests
 
-| Archivo | Tests | Cobertura |
-|---|---|---|
-| `tests/test_reglas.py` | 20 | R1–R9 (reglas de negocio) |
-| `tests/test_csv_parser.py` | 10 | Parseo y validación de CSV |
-| `tests/test_service.py` | 5 | Orquestación y resumen |
-| `tests/test_api.py` | 5 | Integración e2e |
+- `tests/test_reglas.py`: 20 tests — R1–R9 (reglas de negocio).
+- `tests/test_csv_parser.py`: 10 tests — Parseo y validación de CSV.
+- `tests/test_service.py`: 5 tests — Orquestación y resumen.
+- `tests/test_api.py`: 5 tests — Integración e2e.
 
 ## Estructura del backend
 

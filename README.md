@@ -41,22 +41,18 @@ El backend contiene la lógica de conciliación independientemente de FastAPI pa
 
 ### Backend
 
-| Decisión | Motivo |
-|---|---|
-| Conciliación independiente de FastAPI | Permite probar la lógica sin levantar el servidor |
-| `Decimal` para valores monetarios | Evita errores de punto flotante |
-| `date \| None` para fechas | Permite identificar facturas con fechas inválidas sin rechazar el archivo |
-| `CausaInconsistencia(str, Enum)` | Serializa directo a JSON como string |
-| Diccionario para duplicados | Búsqueda O(1) por `id_factura` |
-| `id_factura_linea` | Permite distinguir registros duplicados por posición |
+- **Conciliación independiente de FastAPI:** Permite probar la lógica sin levantar el servidor.
+- **`Decimal` para valores monetarios:** Evita errores de punto flotante.
+- **`date | None` para fechas:** Permite identificar facturas con fechas inválidas sin rechazar el archivo.
+- **`CausaInconsistencia(str, Enum)`:** Serializa directo a JSON como string.
+- **Diccionario para duplicados:** Búsqueda O(1) por `id_factura`.
+- **`id_factura_linea`:** Permite distinguir registros duplicados por posición.
 
 ### Proyecto
 
-| Decisión | Motivo |
-|---|---|
-| Sin base de datos ni persistencia | SPEC.md no lo requiere |
-| Un solo endpoint | API.md solo define `POST /api/conciliacion` |
-| `uv` para dependencias | Gestiona entorno virtual y lockfile |
+- **Sin base de datos ni persistencia:** SPEC.md no lo requiere.
+- **Un solo endpoint:** API.md solo define `POST /api/conciliacion`.
+- **`uv` para dependencias:** Gestiona entorno virtual y lockfile.
 
 ## Estructura
 
@@ -85,12 +81,10 @@ El backend contiene la lógica de conciliación independientemente de FastAPI pa
 
 Las versiones de dependencias se gestionan automáticamente:
 
-| Archivo | Gestiona |
-|---|---|
-| `backend/pyproject.toml` | Python, FastAPI, pytest, etc. |
-| `backend/uv.lock` | Lockfile del backend |
-| `frontend/conciliacion-facturas-ui/package.json` | Angular, Node.js, etc. |
-| `frontend/conciliacion-facturas-ui/package-lock.json` | Lockfile del frontend |
+- `backend/pyproject.toml`: Python, FastAPI, pytest, etc.
+- `backend/uv.lock`: Lockfile del backend.
+- `frontend/conciliacion-facturas-ui/package.json`: Angular, Node.js, etc.
+- `frontend/conciliacion-facturas-ui/package-lock.json`: Lockfile del frontend.
 
 Para instalar las dependencias:
 
