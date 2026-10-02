@@ -12,7 +12,7 @@ from backend.conciliacion.reglas import (
     r1_iva,
     r2_retencion,
     r3_total,
-    r4_factura_duplicada,
+    r4_duplicados,
     r5_registro_duplicado,
     r6_sin_contabilizacion,
     r7_clasificacion,
@@ -24,7 +24,7 @@ from backend.conciliacion.reglas import (
 def conciliar(
     facturas: list[Factura], registros: list[RegistroContable]
 ) -> ResultadoConciliacion:
-    duplicados = r4_factura_duplicada(facturas)
+    duplicados = r4_duplicados(facturas)
     registros_duplicados = r5_registro_duplicado(registros)
     sin_contabilizacion = r6_sin_contabilizacion(facturas, registros)
     registros_por_id = {r.id_factura: r for r in registros}
@@ -46,6 +46,7 @@ def conciliar(
 
         detalles.append(
             Detalle(
+                id_factura_linea=factura.id_factura_linea,
                 id_factura=factura.id_factura,
                 estado=r7_clasificacion(causas),
                 causas=causas,

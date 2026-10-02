@@ -6,8 +6,8 @@ Prototipo web para cargar archivos CSV de facturas y contabilidad, ejecutar regl
 
 El sistema permite:
 
-* Cargar `facturas.csv`.
-* Cargar `contabilidad.csv`.
+* Cargar un archivo de facturas (`facturas.csv`).
+* Cargar un archivo de contabilidad (`contabilidad.csv`).
 * Validar la estructura de los archivos.
 * Ejecutar las reglas de conciliación definidas en `specs/SPEC.md`.
 * Clasificar las facturas como `Correcta` o `Con inconsistencia`.
@@ -18,8 +18,6 @@ El sistema permite:
 El proyecto no utiliza base de datos, persistencia, autenticación ni infraestructura adicional.
 
 ## Arquitectura
-
-El proyecto está dividido en:
 
 ```text
 CSV
@@ -39,6 +37,27 @@ Angular
 
 El backend contiene la lógica de conciliación independientemente de FastAPI para que pueda probarse sin iniciar el servidor.
 
+## Decisiones de diseño
+
+### Backend
+
+| Decisión | Motivo |
+|---|---|
+| Conciliación independiente de FastAPI | Permite probar la lógica sin levantar el servidor |
+| `Decimal` para valores monetarios | Evita errores de punto flotante |
+| `date \| None` para fechas | Permite identificar facturas con fechas inválidas sin rechazar el archivo |
+| `CausaInconsistencia(str, Enum)` | Serializa directo a JSON como string |
+| Diccionario para duplicados | Búsqueda O(1) por `id_factura` |
+| `id_factura_linea` | Permite distinguir registros duplicados por posición |
+
+### Proyecto
+
+| Decisión | Motivo |
+|---|---|
+| Sin base de datos ni persistencia | SPEC.md no lo requiere |
+| Un solo endpoint | API.md solo define `POST /api/conciliacion` |
+| `uv` para dependencias | Gestiona entorno virtual y lockfile |
+
 ## Estructura
 
 ```text
@@ -50,128 +69,49 @@ El backend contiene la lógica de conciliación independientemente de FastAPI pa
 │   ├── SPEC.md
 │   ├── API.md
 │   └── TEST-CASES.md
-└── app/
-    ├── backend/
-    └── frontend/
-        └── conciliacion-facturas-ui/
+├── backend/
+│   ├── src/backend/
+│   │   ├── main.py
+│   │   ├── api/
+│   │   └── conciliacion/
+│   ├── tests/
+│   └── README.md
+└── frontend/
+    └── conciliacion-facturas-ui/
+        └── README.md
 ```
 
-## Requisitos
+## Versiones
 
-Se requiere tener instalados:
+Las versiones de dependencias se gestionan automáticamente:
 
-* Git
-* Python 3.13+
-* uv
-* Node.js
-* npm
-* Angular CLI
+| Archivo | Gestiona |
+|---|---|
+| `backend/pyproject.toml` | Python, FastAPI, pytest, etc. |
+| `backend/uv.lock` | Lockfile del backend |
+| `frontend/conciliacion-facturas-ui/package.json` | Angular, Node.js, etc. |
+| `frontend/conciliacion-facturas-ui/package-lock.json` | Lockfile del frontend |
 
-Las versiones concretas utilizadas durante el desarrollo deben comprobarse con:
+Para instalar las dependencias:
 
 ```bash
-git --version
-python --version
-uv --version
-node --version
-npm --version
-ng version
+cd backend && uv sync
+cd frontend/conciliacion-facturas-ui && npm install
 ```
 
-## Backend
+## Documentación
 
-El backend utiliza Python, FastAPI y `uv` para gestionar el entorno y las dependencias.
+- [`specs/SPEC.md`](specs/SPEC.md) — Especificación funcional
+- [`specs/API.md`](specs/API.md) — Contrato HTTP
+- [`specs/TEST-CASES.md`](specs/TEST-CASES.md) — Casos de prueba
+- [`backend/README.md`](backend/README.md) — Documentación del backend
+- [`frontend/conciliacion-facturas-ui/README.md`](frontend/conciliacion-facturas-ui/README.md) — Documentación del frontend
 
-Entrar al backend:
+## Reglas de negocio
 
-```bash
-cd app/backend
-```
+Las reglas de negocio implementadas se encuentran en [`specs/SPEC.md`](specs/SPEC.md).
 
-Instalar las dependencias:
-
-```bash
-uv sync
-```
-
-Ejecutar los tests:
-
-```bash
-uv run pytest
-```
-
-Iniciar el servidor:
-
-```bash
-uv run uvicorn backend.main:app --reload
-```
-
-La API estará disponible en:
-
-```text
-http://localhost:8000
-```
-
-La documentación interactiva de FastAPI estará disponible durante el desarrollo en:
-
-```text
-http://localhost:8000/docs
-```
-
-## Frontend
-
-El frontend utiliza Angular.
-
-Entrar al proyecto:
-
-```bash
-cd app/frontend/conciliacion-facturas-ui
-```
-
-Instalar las dependencias:
-
-```bash
-npm install
-```
-
-Iniciar el servidor de desarrollo:
-
-```bash
-ng serve
-```
-
-La aplicación estará disponible en:
-
-```text
-http://localhost:4200
-```
-
-## Tests
-
-Los tests del backend deben ejecutarse con:
-
-```bash
-cd app/backend
-uv run pytest
-```
-
-Los tests del frontend pueden ejecutarse con los comandos definidos en `package.json`.
-
-La documentación completa de los tests del backend (estructura, comandos y configuración) se encuentra en [`backend/README.md`](backend/README.md).
-
-## Especificaciones
-
-Las especificaciones funcionales y el contrato de la API se encuentran en:
-
-* `specs/SPEC.md`
-* `specs/API.md`
-* `specs/TEST-CASES.md`
-
-`AGENTS.md` contiene las reglas de desarrollo que deben respetarse durante la implementación.
-
-## Desarrollo
-
-El proyecto se implementa de forma incremental:
+El proceso de desarrollo es incremental:
 
 ```text
 Especificación
@@ -186,8 +126,6 @@ Suite completa
     ↓
 Commit
 ```
-
-Las reglas de negocio no deben inferirse a partir de nombres de campos. Si una especificación es ambigua, debe documentarse la duda antes de implementar una nueva regla.
 
 ## Dependencias
 

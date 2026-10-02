@@ -35,6 +35,10 @@ Cubrir mediante pruebas automatizadas y manuales las reglas de negocio, validaci
 * TC-18 Con base 1000 y tarifa IVA 19%, IVA esperado = 190. Si `valor_iva = 190`, no hay inconsistencia.
 * TC-19 Con base 1000, IVA 190 y retención 10, total esperado = 1180. Si `total_factura = 1180`, no hay inconsistencia.
 
+## Identificador de línea
+
+* TC-21 Identificador de línea: cada factura debe tener un `id_factura_linea` único basado en su posición, con formato `{id_factura}_L{#}`.
+
 ## Integración
 
 Debe existir una prueba del flujo:

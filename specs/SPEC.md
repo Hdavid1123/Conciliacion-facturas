@@ -73,6 +73,14 @@ Si el registro contable asociado tiene `estado` diferente de `Pendiente` o `Cont
 
 Las columnas `fecha_factura` y `fecha_contabilizacion` deben tener formato `yyyy-mm-dd`. Si una entrada no tiene el formato adecuado o no hay valor, clasificar la factura como inconsistente con la causa `Formato de fecha inválido`. El parser no rechaza el archivo; identifica la factura afectada.
 
+## Identificador de línea
+
+Cada factura incluye un identificador único `id_factura_linea` basado en su posición en el archivo CSV.
+
+**Formato:** `{id_factura}_L{#}` donde `#` es el número de línea después del encabezado, comenzando en 1.
+
+**Motivo:** Permite distinguir registros duplicados y facilita el análisis posterior de inconsistencias.
+
 ## Precisión
 
 Usar representación decimal adecuada para valores monetarios y evitar errores de punto flotante. No introducir tolerancias arbitrarias. Si se requiere redondeo, debe documentarse y aplicarse consistentemente.

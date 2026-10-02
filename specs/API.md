@@ -26,11 +26,13 @@ Recibe `multipart/form-data` con dos campos obligatorios:
   },
   "detalles": [
     {
+      "id_factura_linea": "F001_L1",
       "id_factura": "F001",
       "estado": "Correcta",
       "causas": []
     },
     {
+      "id_factura_linea": "F002_L2",
       "id_factura": "F002",
       "estado": "Con inconsistencia",
       "causas": ["IVA incorrecto", "Total de factura incorrecto"]

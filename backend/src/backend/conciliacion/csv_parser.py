@@ -41,7 +41,7 @@ def _leer_csv(data: bytes, nombre: str, columnas_requeridas: list[str]) -> list[
         raise ErrorCSV(f"El archivo {nombre} está vacío")
 
     try:
-        texto = data.decode("utf-8")
+        texto = data.decode("utf-8-sig")
     except UnicodeDecodeError:
         raise ErrorCSV(f"El archivo {nombre} no es un CSV válido (codificación)")
 
@@ -62,27 +62,11 @@ def _leer_csv(data: bytes, nombre: str, columnas_requeridas: list[str]) -> list[
     return filas
 
 
-# Verificación de formato para decimal y fecha
-
-def _parsear_decimal(valor: str) -> Decimal:
-    try:
-        return Decimal(valor)
-    except InvalidOperation:
-        raise ErrorCSV(f"Valor numérico inválido: {valor}")
-
-
-def _parsear_fecha(valor: str) -> date | None:
-    if not valor or not valor.strip():
-        return None
-    try:
-        return datetime.strptime(valor, "%Y-%m-%d").date()
-    except ValueError:
-        return None
-
-
-def _fila_a_factura(fila: dict[str, str]) -> Factura:
+def _fila_a_factura(fila: dict[str, str], linea: int) -> Factura:
+    id_factura = fila["id_factura"]
     return Factura(
-        id_factura=fila["id_factura"],
+        id_factura_linea=f"{id_factura}_L{linea}",
+        id_factura=id_factura,
         nit_proveedor=fila["nit_proveedor"],
         fecha_factura=_parsear_fecha(fila["fecha_factura"]),
         concepto=fila["concepto"],
@@ -107,9 +91,25 @@ def _fila_a_registro(fila: dict[str, str]) -> RegistroContable:
     )
 
 
+def _parsear_decimal(valor: str) -> Decimal:
+    try:
+        return Decimal(valor)
+    except InvalidOperation:
+        raise ErrorCSV(f"Valor numérico inválido: {valor}")
+
+
+def _parsear_fecha(valor: str) -> date | None:
+    if not valor or not valor.strip():
+        return None
+    try:
+        return datetime.strptime(valor, "%Y-%m-%d").date()
+    except ValueError:
+        return None
+
+
 def parsear_facturas(data: bytes) -> list[Factura]:
     filas = _leer_csv(data, "facturas.csv", COLUMNAS_FACTURAS)
-    return [_fila_a_factura(f) for f in filas]
+    return [_fila_a_factura(f, i) for i, f in enumerate(filas, start=1)]
 
 
 def parsear_contabilidad(data: bytes) -> list[RegistroContable]:

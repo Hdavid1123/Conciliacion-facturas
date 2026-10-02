@@ -12,7 +12,7 @@ from backend.conciliacion.reglas import (
     r1_iva,
     r2_retencion,
     r3_total,
-    r4_factura_duplicada,
+    r4_duplicados,
     r5_registro_duplicado,
     r6_sin_contabilizacion,
     r7_clasificacion,
@@ -23,6 +23,7 @@ from backend.conciliacion.reglas import (
 
 def _factura(**kwargs) -> Factura:
     return Factura(
+        id_factura_linea=kwargs.get("id_factura_linea", "F001_L1"),
         id_factura=kwargs.get("id_factura", "F001"),
         nit_proveedor=kwargs.get("nit_proveedor", "123456789"),
         fecha_factura=kwargs.get("fecha_factura", date(2024, 1, 15)),
@@ -96,14 +97,14 @@ def test_r3_total_incorrecto():
 
 # R4 - Facturas duplicadas
 
-def test_r4_factura_duplicada_sin_duplicados():
-    facturas = [_factura(id_factura="F001"), _factura(id_factura="F002")]
-    assert r4_factura_duplicada(facturas) == {}
+def test_r4_duplicados_sin_duplicados():
+    facturas = [_factura(id_factura="F001", id_factura_linea="F001_L1"), _factura(id_factura="F002", id_factura_linea="F002_L2")]
+    assert r4_duplicados(facturas) == {}
 
 
-def test_r4_factura_duplicada_con_duplicado():
-    facturas = [_factura(id_factura="F001"), _factura(id_factura="F001")]
-    assert r4_factura_duplicada(facturas) == {"F001": [CausaInconsistencia.FACTURA_DUPLICADA]}
+def test_r4_duplicados_con_duplicado():
+    facturas = [_factura(id_factura="F001", id_factura_linea="F001_L1"), _factura(id_factura="F001", id_factura_linea="F001_L3")]
+    assert r4_duplicados(facturas) == {"F001": [CausaInconsistencia.FACTURA_DUPLICADA]}
 
 
 # R5 - Registro contable duplicado

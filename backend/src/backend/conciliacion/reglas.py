@@ -30,7 +30,7 @@ def r3_total(factura: Factura) -> list[CausaInconsistencia]:
     return []
 
 
-def r4_factura_duplicada(facturas: list[Factura]) -> dict[str, list[CausaInconsistencia]]:
+def r4_duplicados(facturas: list[Factura]) -> dict[str, list[CausaInconsistencia]]:
     conteo = Counter(f.id_factura for f in facturas)
     return {
         id_factura: [CausaInconsistencia.FACTURA_DUPLICADA]

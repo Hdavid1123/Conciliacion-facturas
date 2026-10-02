@@ -19,6 +19,7 @@ class CausaInconsistencia(str, Enum):
 
 @dataclass
 class Factura:
+    id_factura_linea: str
     id_factura: str
     nit_proveedor: str
     fecha_factura: date | None
@@ -44,6 +45,7 @@ class RegistroContable:
 
 @dataclass
 class Detalle:
+    id_factura_linea: str
     id_factura: str
     estado: str
     causas: list[CausaInconsistencia] = field(default_factory=list)
