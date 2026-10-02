@@ -52,6 +52,32 @@ El backend contiene la lógica de conciliación independientemente de FastAPI pa
 - **Un solo endpoint:** API.md solo define `POST /api/conciliacion`.
 - **`uv` para dependencias:** Gestiona entorno virtual y lockfile.
 
+## Supuestos
+
+- Los archivos CSV usan codificación UTF-8 (con o sin BOM).
+- Las fechas en los CSV tienen formato `yyyy-mm-dd`.
+- Los archivos no se procesan en paralelo; la conciliación es síncrona.
+- No se requiere autenticación ni autorización.
+- Solo se suben dos archivos por cada llamada del endpoint.
+- Se debe almacenar la información de todas las filas repetidas y no descartar por ubicación en el archivo.
+
+## Notas de implementación
+
+### Identificador de línea (`id_factura_linea`)
+
+El identificador `id_factura_linea` fue creado para permitir el análisis posterior de facturas repetidas. El objetivo era usar este identificador para determinar cuál de las facturas repetidas corresponde realmente a la original, basado en la información interna del archivo. Sin embargo, esta funcionalidad no se implementó y queda como una mejora futura.
+
+De manera similar, podría crearse un identificador `id_contabilidad_linea` para analizar duplicados en contabilidad, pero esto tampoco se implementó.
+
+## Funcionalidades no completadas
+
+- Tests e2e del frontend con Angular E2E (Cypress o Playwright).
+- Filtro de resultados por estado en el backend (actualmente se hace en el frontend).
+- Descarga de resultados en formato CSV o PDF.
+- Validación de formato de números (ej: separadores de miles).
+- Manejo de archivos con más de un encabezado o filas vacías intermedias.
+- Análisis más a fondo de las facturas o contabilidad para determinar cuál fila puede ser un error de registro.
+
 ## Estructura
 
 ```text
