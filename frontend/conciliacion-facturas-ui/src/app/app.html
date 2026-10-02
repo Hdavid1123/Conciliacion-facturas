@@ -32,14 +32,14 @@
 
 @if (resultado(); as res) {
   <div class="resumen">
-    <h2>Resumen</h2>
+    <h2>Resumen de facturas</h2>
     <p>Total: {{ res.resumen.total_facturas }}</p>
     <p>Correctas: {{ res.resumen.correctas }}</p>
     <p>Inconsistencias: {{ res.resumen.inconsistencias }}</p>
   </div>
 
   <div class="filtro">
-    <button (click)="filtro.set('todos')">Todos</button>
+    <button (click)="filtro.set('todos')">Todas</button>
     <button (click)="filtro.set('correctas')">Correctas</button>
     <button (click)="filtro.set('inconsistencias')">Con inconsistencia</button>
   </div>
